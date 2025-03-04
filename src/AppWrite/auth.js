@@ -9,7 +9,6 @@ export class AuthService {
         this.client = new Client()
             .setEndpoint(conf.VITE_APPWRITE_URL)
             .setProject(conf.VITE_APPWRITE_PROJECT_ID);
-
         this.account = new Account(this.client);
     }
 
@@ -46,7 +45,7 @@ export class AuthService {
             return await this.account.get();
         } catch (error) {
             console.error("AuthService :: getUserDetails :: error", error);
-            return null; // Return `null` instead of throwing to handle the absence of user gracefully.
+            return null; 
         }
     }
 }
