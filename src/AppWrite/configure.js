@@ -71,8 +71,8 @@ export class Service {
         query = [
             Query.equal("status", "active")
         ]
-    ) {
-        try {
+    ) {try
+         {
             return await this.databases.listDocuments(
                 conf.VITE_APPWRITE_DATABASE_ID,
                 conf.VITE_APPWRITE_COLLECTION_ID,
