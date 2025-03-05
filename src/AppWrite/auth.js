@@ -1,5 +1,5 @@
-import conf from "../config/config";
 import { Client, Account, ID } from "appwrite";
+import conf from "../config/config";
 
 export class AuthService {
     client;
@@ -7,8 +7,8 @@ export class AuthService {
 
     constructor() {
         this.client = new Client()
-            .setEndpoint(conf.VITE_APPWRITE_URL)
-            .setProject(conf.VITE_APPWRITE_PROJECT_ID);
+            .setEndpoint(conf.APPWRITE_URL)
+            .setProject(conf.APPWRITE_PROJECT_ID);
         this.account = new Account(this.client);
     }
 
@@ -18,7 +18,7 @@ export class AuthService {
             return userAccount ? this.login({ email, password }) : userAccount;
         } catch (error) {
             console.error("AuthService :: createAccount :: error", error);
-            throw error;
+            return { error: error.message };
         }
     }
 
@@ -27,16 +27,17 @@ export class AuthService {
             return await this.account.createEmailPasswordSession(email, password);
         } catch (error) {
             console.error("AuthService :: login :: error", error);
-            throw error;
+            return { error: error.message };
         }
     }
 
     async logout() {
         try {
             await this.account.deleteSessions();
+            return { success: true };
         } catch (error) {
             console.error("AuthService :: logout :: error", error);
-            throw error;
+            return { error: error.message };
         }
     }
 
@@ -45,7 +46,7 @@ export class AuthService {
             return await this.account.get();
         } catch (error) {
             console.error("AuthService :: getUserDetails :: error", error);
-            return null; 
+            return { error: error.message };
         }
     }
 }

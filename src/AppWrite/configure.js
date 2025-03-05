@@ -1,5 +1,5 @@
-import conf from "../config/config";
 import { Client, Databases, Storage, Query, ID } from "appwrite";
+import conf from "../config/config";
 
 export class Service {
     client = new Client();
@@ -7,7 +7,7 @@ export class Service {
     bucket;
 
     constructor() {
-        this.client.setEndpoint(conf.APPWRITE_ENDPOINT);
+        this.client.setEndpoint(conf.APPWRITE_URL);
         this.client.setProject(conf.APPWRITE_PROJECT_ID);
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
@@ -16,111 +16,106 @@ export class Service {
     async createPost({ title, slug, content, featuredImage, status, userId }) {
         try {
             return await this.databases.createDocument(
-                conf.VITE_APPWRITE_DATABASE_ID,
-                conf.VITE_APPWRITE_COLLECTION_ID,
+                conf.APPWRITE_DATABASE_ID,
+                conf.APPWRITE_COLLECTION_ID,
                 slug,
                 { title, slug, content, featuredImage, status, userId }
             );
         } catch (error) {
             console.error("Error creating post:", error.message);
-            throw new Error(`Failed to create post: ${error.message}`);
+            return { error: `Failed to create post: ${error.message}` };
         }
     }
 
     async updatePost(slug, { title, content, featuredImage, status, userId }) {
         try {
             return await this.databases.updateDocument(
-                conf.VITE_APPWRITE_DATABASE_ID,
-                conf.VITE_APPWRITE_COLLECTION_ID,
+                conf.APPWRITE_DATABASE_ID,
+                conf.APPWRITE_COLLECTION_ID,
                 slug,
                 { title, slug, content, featuredImage, status, userId }
             );
         } catch (error) {
             console.error("Error updating post:", error.message);
-            throw new Error(`Failed to update post: ${error.message}`);
+            return { error: `Failed to update post: ${error.message}` };
         }
     }
 
     async deletePost(slug) {
         try {
             await this.databases.deleteDocument(
-                conf.VITE_APPWRITE_DATABASE_ID,
-                conf.VITE_APPWRITE_COLLECTION_ID,
+                conf.APPWRITE_DATABASE_ID,
+                conf.APPWRITE_COLLECTION_ID,
                 slug
             );
+            return { success: true };
         } catch (error) {
             console.error("Error deleting post:", error.message);
-            throw new Error(`Failed to delete post: ${error.message}`);
+            return { error: `Failed to delete post: ${error.message}` };
         }
     }
+
     async getDocument(slug) {
         try {
             return await this.databases.getDocument(
-                conf.VITE_APPWRITE_DATABASE_ID,
-                conf.VITE_APPWRITE_COLLECTION_ID,
+                conf.APPWRITE_DATABASE_ID,
+                conf.APPWRITE_COLLECTION_ID,
                 slug
             );
-
         } catch (error) {
             console.error("Error fetching post:", error.message);
-            throw new Error(`Failed to fetch post: ${error.message}`);
-
+            return { error: `Failed to fetch post: ${error.message}` };
         }
     }
-    async getAllPosts(
-        query = [
-            Query.equal("status", "active")
-        ]
-    ) {try
-         {
+
+    async getAllPosts(query = [Query.equal("status", "active")]) {
+        try {
             return await this.databases.listDocuments(
-                conf.VITE_APPWRITE_DATABASE_ID,
-                conf.VITE_APPWRITE_COLLECTION_ID,
-                {
-                    query,
-                    limit: 100,
-                }
+                conf.APPWRITE_DATABASE_ID,
+                conf.APPWRITE_COLLECTION_ID,
+                query
             );
         } catch (error) {
             console.error("Error fetching all posts:", error.message);
-            throw new Error(`Failed to fetch all posts: ${error.message}`);
+            return { error: `Failed to fetch all posts: ${error.message}` };
         }
-
     }
-    //file upload
+
+    // File Upload
     async uploadFile(file) {
         try {
             const response = await this.bucket.createFile(
-                conf.VITE_APPWRITE_BUCKET_ID,
+                conf.APPWRITE_BUCKET_ID,
                 ID.unique(),
                 file
             );
-            return response.url;
+            return response; // Return file object instead of URL
         } catch (error) {
             console.error("Error uploading file:", error.message);
-            throw new Error(`Failed to upload file: ${error.message}`);
+            return { error: `Failed to upload file: ${error.message}` };
         }
     }
-    // delete file upload
+
+    // Delete File
     async deleteFile(fileId) {
         try {
-            await this.bucket.deleteFile(conf.VITE_APPWRITE_BUCKET_ID, fileId);
+            await this.bucket.deleteFile(conf.APPWRITE_BUCKET_ID, fileId);
+            return { success: true };
         } catch (error) {
             console.error("Error deleting file:", error.message);
-            throw new Error(`Failed to delete file: ${error.message}`);
+            return { error: `Failed to delete file: ${error.message}` };
         }
     }
 
-    filePreview(fileId) {
+    // File Preview
+    async filePreview(fileId) {
         try {
-            const response = this.bucket.getFilePreview(conf.VITE_APPWRITE_BUCKET_ID, fileId);
-            return response.url;
+            return this.bucket.getFilePreview(conf.APPWRITE_BUCKET_ID, fileId);
         } catch (error) {
             console.error("Error fetching file preview:", error.message);
-            throw new Error(`Failed to fetch file preview: ${error.message}`);
+            return { error: `Failed to fetch file preview: ${error.message}` };
         }
     }
-
 }
 
 const serviceInstance = new Service();
