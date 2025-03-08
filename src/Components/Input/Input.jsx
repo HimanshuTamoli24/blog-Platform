@@ -5,11 +5,12 @@ const Input = forwardRef(function Input(
     { label, type = 'text', className = "", ...props },
     ref
 ) {
-    const id = useId(); // Generate a unique ID
+    const id = useId();
 
     return (
         <div className="flex flex-col gap-1">
-            {label && <label htmlFor={id} className="text-sm font-medium">{label}</label>}
+            {
+                label && <label htmlFor={id} className="text-sm font-medium">{label}</label>}
             <input
                 id={id}
                 type={type}

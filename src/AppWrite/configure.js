@@ -27,13 +27,13 @@ export class Service {
         }
     }
 
-    async updatePost(slug, { title, content, featuredImage, status, userId }) {
+    async updatePost(slug, { title, content, featuredImage, status, }) {
         try {
             return await this.databases.updateDocument(
                 conf.APPWRITE_DATABASE_ID,
                 conf.APPWRITE_COLLECTION_ID,
                 slug,
-                { title, slug, content, featuredImage, status, userId }
+                { title, content, featuredImage, status }
             );
         } catch (error) {
             console.error("Error updating post:", error.message);
