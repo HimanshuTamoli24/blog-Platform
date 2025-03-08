@@ -25,19 +25,14 @@ function App() {
         setLoading(false)
       })
   }, [dispatch])
-
-  if (loading) {
-    return <div className="flex justify-center items-center min-h-screen text-green-800 text-xl">Loading...</div>
-  }
-
   return loading ? (
     <div className="flex justify-center items-center min-h-screen text-green-800 text-xl">
       Loading...
     </div>
   ) : (
-    <div className="min-h-screen w-full flex flex-col bg-amber-600/25 text-green-800 text-xl">
+    <div className="min-h-screen w-full flex flex-col bg-blue-600/25 text-green-800 text-xl">
       <Header />
-      <main className="min-h-screen w-full bg-red-900/25">
+      <main className="min-h-screen w-full bg-green-900/25">
         <Outlet />
       </main>
       <Footer />
