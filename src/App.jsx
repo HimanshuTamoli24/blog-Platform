@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Header, Footer, Login, Logout, Signup } from './Components'
+import { Header, Footer, Login, Logout, Signup, PostForm, Postcard } from './Components'
 import { useDispatch } from 'react-redux'
 import authService from "./AppWrite/auth.js"
 import { login, logout } from './store/authSlice.js'
 import { Outlet } from 'react-router-dom'
-import SignUP from './Pages/SignUP.jsx'
+import SignUP from './Pages/Signups.jsx'
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -35,8 +35,6 @@ function App() {
       <main className="min-h-screen w-full bg-green-900/25">
         <Outlet />
       </main>
-      <Login />
-      <Signup />
       <Footer />
     </div>
   )

@@ -1,3 +1,4 @@
+import Authlayout from "./AuthLayout/Authlayout.jsx"
 import Button from "./Button/Button";
 import Container from "./Container/Container";
 import Footer from "./Footer/Footer";
@@ -23,6 +24,7 @@ export {
     Select,
     Postcard,
     Login,
+    Authlayout
 
 };
 

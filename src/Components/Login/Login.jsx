@@ -16,10 +16,12 @@ function Login() {
         setError("");
         try {
             const session = await authService.login(data);
-            const userData = await authService.getUserDetails();
-            if (userData) {
-                dispatch(authLogin(userData));
-                navigate("/");
+            if (session) {
+                const userData = await authService.getUserDetails(); 
+                if (userData) {
+                    dispatch(authLogin(userData));
+                    navigate("/");
+                }
             }
         } catch (error) {
             setError(error.message || "Invalid email or password");

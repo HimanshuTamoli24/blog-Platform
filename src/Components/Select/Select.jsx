@@ -1,8 +1,8 @@
 import React, { forwardRef, useId } from "react";
 
-const Select = forwardRef(({ options, label, id, className = "", ...props }, ref) => {
+const Select = forwardRef(({ options, label, className = "", ...props }, ref) => {
     const generatedId = useId();
-    const selectId = id || generatedId;
+    const selectId =  generatedId;
 
     return (
         <div className="flex flex-col gap-2">

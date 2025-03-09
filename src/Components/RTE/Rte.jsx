@@ -1,33 +1,48 @@
-import React from 'react'
-import { Controller } from 'react-hook-form'
-import { Editor } from 'tinymce'
+import React, { useEffect } from "react";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
+function OnChangePlugin({ setValue, getValues }) {
+    const [editor] = useLexicalComposerContext();
 
-function Rte({ name, control, label, defaultValue = "" }) {
-    return (
-        <div className='w-full'>
-            {label && <label className='inline-block mb-1 pl-1'>{label}</label>}
-            <Controller
-                name={name || "content"}
-                control={control}
-                defaultValue={defaultValue}
-                render={({ field: { onChange, value } }) => (
-                    <Editor
-                        initialValue={defaultValue}
-                        value={value}
-                        onEditorChange={onChange} 
-                        init={{
-                            branding: false,
-                            height: 500,
-                            menubar: true, 
-                            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
-                        }}
-                    />
-                )}
-            />
-        </div>
-    )
+    useEffect(() => {
+        return editor.registerUpdateListener(({ editorState }) => {
+            editorState.read(() => {
+                const newContent = JSON.stringify(editorState);
+                if (newContent !== getValues("content")) {
+                    setValue("content", newContent);
+                }
+            });
+        });
+    }, [editor, setValue, getValues]);
+
+    return null;
 }
 
-export default Rte
+function Rte({ label, name, control, setValue, getValues }) {
+    const config = {
+        namespace: "Editor",
+        onError: (error) => console.error(error),
+    };
+
+    return (
+        <div className="mb-4">
+            <label className="block text-gray-700">{label}</label>
+            <LexicalComposer initialConfig={config}>
+                <div className="border p-2">
+                    <RichTextPlugin
+                        contentEditable={<ContentEditable className="p-2 min-h-[150px]" />}
+                        placeholder={<div className="text-gray-400 p-2">Type here...</div>}
+                    />
+                    <HistoryPlugin />
+                    <OnChangePlugin setValue={setValue} getValues={getValues} />
+                </div>
+            </LexicalComposer>
+        </div>
+    );
+}
+
+export default Rte;

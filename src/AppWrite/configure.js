@@ -63,8 +63,8 @@ export class Service {
                 slug
             );
         } catch (error) {
-            console.error("Error fetching post:", error.message);
-            return { error: `Failed to fetch post: ${error.message}` };
+            console.error("Error fetching post:", error);
+            return { error: `Failed to fetch post: ${error}` };
         }
     }
 
@@ -76,8 +76,8 @@ export class Service {
                 query
             );
         } catch (error) {
-            console.error("Error fetching all posts:", error.message);
-            return { error: `Failed to fetch all posts: ${error.message}` };
+            console.error("Error fetching all posts:", error);
+            return { error: `Failed to fetch all posts: ${error}` };
         }
     }
 
@@ -112,8 +112,8 @@ export class Service {
         try {
             return this.bucket.getFilePreview(conf.APPWRITE_BUCKET_ID, fileId);
         } catch (error) {
-            console.error("Error fetching file preview:", error.message);
-            return { error: `Failed to fetch file preview: ${error.message}` };
+            console.error("Error fetching file preview:", error);
+            return { error: `Failed to fetch file preview: ${error}` };
         }
     }
 }
