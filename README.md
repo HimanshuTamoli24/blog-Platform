@@ -1,12 +1,33 @@
-# React + Vite
+# React + Appwrite Full-Stack Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a full-stack web application built using **React** for the frontend and **Appwrite** as the backend. It includes authentication, database management, and file handling.
 
-Currently, two official plugins are available:
+## 📌 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: Signup, Login, Logout
+- **State Management**: Redux or Context API
+- **Routing**: React Router for navigation
+- **CRUD Operations**: Create, Read, Update, and Delete text-based content
+- **File Management**: Upload, manage, and delete files
+- **Appwrite Integration**:
+  - Authentication
+  - Database for storing user data
+  - File storage and management
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Technology  | Purpose  |
+|-------------|----------|
+| **React.js** | Frontend UI |
+| **Appwrite** | Backend (Auth, DB, File Storage) |
+| **Redux/Context API** | State Management |
+| **React Router** | Navigation |
+| **React Form Libraries** | ReactHookForm |
+| **Dynamic TextEditor** | Lexial Tool |
+
+## 📜 License
+This project is licensed under the MIT License.
+
+---
+
+
