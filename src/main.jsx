@@ -10,7 +10,7 @@ import Login from "./Pages/Login.jsx";
 import Signups from "./Pages/Signups.jsx"; 
 import Post from "./Pages/Post.jsx";
 import AddPost from "./Pages/AddPost.jsx";
-import EditPost from "./Pages/EditPost.jsx";
+import Editpost from "./Pages/EditPost.jsx";
 import AllPosts from "./Pages/AllPost.jsx"
 
 const router = createBrowserRouter([
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
         path: "/edit-post/:slug",
         element: (
           <Authlayout Status={true}>
-            <EditPost />
+            <Editpost />
           </Authlayout>
         ),
       },
